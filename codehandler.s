@@ -23,7 +23,7 @@
 .equiv "addr_OSDynLoad_Acquire", "OS_SPECIFICS" + 0x0
 .equiv "addr_OSDynLoad_FindExport", "OS_SPECIFICS" + 0x4
 .equiv "OS_DYNLOAD_OK", 0
-.equiv "OS_DYNLOAD_OUT_OF_MEMORY", 0xBAD10002
+/*.equiv "OS_DYNLOAD_OUT_OF_MEMORY", 0xBAD10002
 .equiv "OS_DYNLOAD_INVALID_NOTIFY_PTR", 0xBAD1000E
 .equiv "OS_DYNLOAD_INVALID_MODULE_NAME_PTR", 0xBAD1000F
 .equiv "OS_DYNLOAD_INVALID_MODULE_NAME", 0xBAD10010
@@ -34,7 +34,7 @@
 .equiv "OS_DYNLOAD_TLS_ALLOCATOR_LOCKED", 0xBAD10031
 .equiv "OS_DYNLOAD_MODULE_NOT_FOUND", 0xFFFFFFFA
 
-/*.equiv "addr_OSTitle_main_entry", "OS_SPECIFICS" + 0x8
+.equiv "addr_OSTitle_main_entry", "OS_SPECIFICS" + 0x8
 .equiv "addr_KernSyscallTbl1", "OS_SPECIFICS" + 0xC
 .equiv "addr_KernSyscallTbl2", "OS_SPECIFICS" + 0x10
 .equiv "addr_KernSyscallTbl3", "OS_SPECIFICS" + 0x14
@@ -782,7 +782,7 @@ DecodeCodeType_switch_case:
 	b DecodeCodeType_NoOperation # 0xFF
 
 #! ------------------------------------------------------------------------
-#!                             RAM Writes [00]
+#! MARK:                       RAM Writes [00]
 #! ------------------------------------------------------------------------
 DecodeCodeType_RAMWrites:
 	lbz r6, 0x1 (r31)
@@ -809,7 +809,7 @@ DecodeCodeType_RAMWrites_General:
 
 	cmpw r25, r5
 	bne DecodeCodeType_RAMWrites_CheckAddr
-	
+
 	mr r31, r30
 	b DecodeCodeType_Exit
 
@@ -878,7 +878,7 @@ DecodeCodeType_RAMWrites_DataWrites_32bit:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                            String Writes [01]
+#! MARK:                      String Writes [01]
 #! ------------------------------------------------------------------------
 DecodeCodeType_StringWrites:
 	lbz r5, 0x1 (r31)
@@ -946,7 +946,7 @@ DecodeCodeType_StringWrites_DataWrites:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                             Skip Writes [02]
+#! MARK:                       Skip Writes [02]
 #! ------------------------------------------------------------------------
 DecodeCodeType_SkipWrites:
 	lbz r5, 0x1 (r31)
@@ -1107,7 +1107,7 @@ DecodeCodeType_SkipWrites_Exit:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                           Common Conditionals
+#! MARK:                     Common Conditionals
 #! ------------------------------------------------------------------------
 DecodeCodeType_CommonConditional:
 	lbz r5, 0x1 (r31)
@@ -1172,7 +1172,7 @@ DecodeCodeType_CommonConditional_GotoSpecific:
 
 DecodeCodeType_CommonConditional_switch_case:
 #! ------------------------------------------------------------------------
-#!                              If Equal [03]
+#! MARK:                        If Equal [03]
 #! ------------------------------------------------------------------------
 	nop
 	cmpw r7, r5
@@ -1180,7 +1180,7 @@ DecodeCodeType_CommonConditional_switch_case:
 	b DecodeCodeType_CommonConditional_Exit
 
 #! ------------------------------------------------------------------------
-#!                            If Not Equal [04]
+#! MARK:                      If Not Equal [04]
 #! ------------------------------------------------------------------------
 	nop
 	cmpw r7, r5
@@ -1188,7 +1188,7 @@ DecodeCodeType_CommonConditional_switch_case:
 	b DecodeCodeType_CommonConditional_Exit
 
 #! ------------------------------------------------------------------------
-#!                             If Greater [05]
+#! MARK:                       If Greater [05]
 #! ------------------------------------------------------------------------
 	nop
 	cmpw r7, r5
@@ -1196,7 +1196,7 @@ DecodeCodeType_CommonConditional_switch_case:
 	b DecodeCodeType_CommonConditional_Exit
 
 #! ------------------------------------------------------------------------
-#!                              If Lower [06]
+#! MARK:                        If Lower [06]
 #! ------------------------------------------------------------------------
 	nop
 	cmpw r7, r5
@@ -1204,7 +1204,7 @@ DecodeCodeType_CommonConditional_switch_case:
 	b DecodeCodeType_CommonConditional_Exit
 
 #! ------------------------------------------------------------------------
-#!                         If Greater Or Equal [07]
+#! MARK:                   If Greater Or Equal [07]
 #! ------------------------------------------------------------------------
 	nop
 	cmpw r7, r5
@@ -1212,7 +1212,7 @@ DecodeCodeType_CommonConditional_switch_case:
 	b DecodeCodeType_CommonConditional_Exit
 
 #! ------------------------------------------------------------------------
-#!                          If Lower Or Equal [08]
+#! MARK:                    If Lower Or Equal [08]
 #! ------------------------------------------------------------------------
 	nop
 	cmpw r7, r5
@@ -1220,7 +1220,7 @@ DecodeCodeType_CommonConditional_switch_case:
 	b DecodeCodeType_CommonConditional_Exit
 
 #! ------------------------------------------------------------------------
-#!                           Conditional AND [09]
+#! MARK:                     Conditional AND [09]
 #! ------------------------------------------------------------------------
 	and r7, r7, r5
 	cmpw r7, r5
@@ -1228,7 +1228,7 @@ DecodeCodeType_CommonConditional_switch_case:
 	b DecodeCodeType_CommonConditional_Exit
 
 #! ------------------------------------------------------------------------
-#!                           Conditional OR [0A]
+#! MARK:                     Conditional OR [0A]
 #! ------------------------------------------------------------------------
 	nop
 	and. r7, r7, r5
@@ -1236,7 +1236,7 @@ DecodeCodeType_CommonConditional_switch_case:
 	b DecodeCodeType_CommonConditional_Exit
 
 #! ------------------------------------------------------------------------
-#!                               Between [0B]
+#! MARK:                         Between [0B]
 #! ------------------------------------------------------------------------
 	cmpw r7, r5
 	ble DecodeCodeType_CommonConditional_SetFlag
@@ -1251,7 +1251,7 @@ DecodeCodeType_CommonConditional_Exit:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                           Time Dependence [0C]
+#! MARK:                     Time Dependence [0C]
 #! ------------------------------------------------------------------------
 DecodeCodeType_TimeDependence:
 	lwz r5, 0 (r27) # Get passed frames.
@@ -1283,7 +1283,7 @@ DecodeCodeType_TimeDependence:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                             Reset Timer [0D]
+#! MARK:                       Reset Timer [0D]
 #! ------------------------------------------------------------------------
 DecodeCodeType_ResetTimer:
 	lwz r26, 0x4 (r31) # Address LLLLLLLL.
@@ -1313,7 +1313,7 @@ DecodeCodeType_ResetTimer:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                          Input Conditional [0E]
+#! MARK:                    Input Conditional [0E]
 #! ------------------------------------------------------------------------
 DecodeCodeType_InputConditional:
 	lbz r5, 0x2 (r31) # Get "X" controller type.
@@ -1377,7 +1377,7 @@ DecodeCodeType_InputConditional_SetFlag:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                         Negate Conditional [0F]
+#! MARK:                   Negate Conditional [0F]
 #! ------------------------------------------------------------------------
 DecodeCodeType_NegateConditional:
 	lhz r5, 0 (r29) # Conditional counter.
@@ -1393,7 +1393,7 @@ DecodeCodeType_NegateConditional_SetFlag:
 	b DecodeCodeType_NoOperation
 
 #! ------------------------------------------------------------------------
-#!                            Load Integer [10]
+#! MARK:                      Load Integer [10]
 #! ------------------------------------------------------------------------
 DecodeCodeType_LoadInteger:
 	lbz r5, 0x1 (r31)
@@ -1441,7 +1441,7 @@ DecodeCodeType_LoadInteger_UpdateIntRegister:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                            Store Integer [11]
+#! MARK:                      Store Integer [11]
 #! ------------------------------------------------------------------------
 DecodeCodeType_StoreInteger:
 	lbz r5, 0x1 (r31)
@@ -1534,7 +1534,7 @@ DecodeCodeType_StoreInteger_Data_Generic:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                             Load Float [12]
+#! MARK:                       Load Float [12]
 #! ------------------------------------------------------------------------
 DecodeCodeType_LoadFloat:
 	lbz r5, 0x1 (r31)
@@ -1570,7 +1570,7 @@ DecodeCodeType_LoadFloat_General:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                             Store Float [13]
+#! MARK:                       Store Float [13]
 #! ------------------------------------------------------------------------
 DecodeCodeType_StoreFloat:
 	lbz r5, 0x1 (r31)
@@ -1615,7 +1615,7 @@ DecodeCodeType_StoreFloat_General:
 	stfs f5, 0 (r12)
 
 	FLUSH_DATA_BLOCK r12
-	
+
 	mr r3, r25
 	mr r4, r12
 	li r5, 0x4
@@ -1629,7 +1629,7 @@ DecodeCodeType_StoreFloat_Data:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                         Integer Operations [14]
+#! MARK:                   Integer Operations [14]
 #! ------------------------------------------------------------------------
 DecodeCodeType_IntegerOperations:
 	lbz r5, 0x1 (r31) # Operation type "O".
@@ -1769,7 +1769,7 @@ DecodeCodeType_IntegerOperations_AssignVal:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                          Float Operations [15]
+#! MARK:                    Float Operations [15]
 #! ------------------------------------------------------------------------
 DecodeCodeType_FloatOperations:
 	lbz r5, 0x1 (r31) # Operation type "O".
@@ -1871,7 +1871,7 @@ DecodeCodeType_FloatOperations_switch_case:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                             Memory Fill [20]
+#! MARK:                       Memory Fill [20]
 #! ------------------------------------------------------------------------
 DecodeCodeType_MemoryFill:
 	lbz r5, 0x1 (r31)
@@ -1944,7 +1944,7 @@ DecodeCodeType_MemoryFill_Data:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                             Memory Copy [21]
+#! MARK:                       Memory Copy [21]
 #! ------------------------------------------------------------------------
 DecodeCodeType_MemoryCopy:
 	lbz r5, 0x1 (r31)
@@ -2012,7 +2012,7 @@ DecodeCodeType_MemoryCopy_Data:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                            Load Pointer [30]
+#! MARK:                      Load Pointer [30]
 #! ------------------------------------------------------------------------
 DecodeCodeType_DereferencePointer:
 	lbz r5, 0x1 (r31)
@@ -2063,7 +2063,7 @@ DecodeCodeType_DereferencePointer_UpdateFlag:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                         Pointer Offset Modifier
+#! MARK:                   Pointer Offset Modifier
 #! ------------------------------------------------------------------------
 DecodeCodeType_PtrOffsetModfier:
 	lwz r6, 0x4 (r31) # Non-volatile signed offset QQQQQQQQ.
@@ -2089,26 +2089,26 @@ DecodeCodeType_PtrOffsetModfier:
 	b DecodeCodeType_NoOperation
 
 #! ------------------------------------------------------------------------
-#!                    Add Offset To Pointer Indexed [32]
+#! MARK:              Add Offset To Pointer Indexed [32]
 #! ------------------------------------------------------------------------
 DecodeCodeType_PtrOffsetModfier_AddIndexed:
 	add r6, r6, r7
 
 #! ------------------------------------------------------------------------
-#!                        Add Offset To Pointer [31]
+#! MARK:                  Add Offset To Pointer [31]
 #! ------------------------------------------------------------------------
 DecodeCodeType_PtrOffsetModfier_Add:
 	add r12, r12, r6
 	b DecodeCodeType_PtrOffsetModfier_UpdatePtr
 
 #! ------------------------------------------------------------------------
-#!                 Subtract Offset To Pointer Indexed [34]
+#! MARK:           Subtract Offset To Pointer Indexed [34]
 #! ------------------------------------------------------------------------
 DecodeCodeType_PtrOffsetModfier_SubIndexed:
 	add r6, r6, r7
 
 #! ------------------------------------------------------------------------
-#!                    Subtract Offset To Pointer [33]
+#! MARK:               Subtract Offset To Pointer [33]
 #! ------------------------------------------------------------------------
 DecodeCodeType_PtrOffsetModfier_Sub:
 	sub r12, r12, r6
@@ -2118,10 +2118,10 @@ DecodeCodeType_PtrOffsetModfier_UpdatePtr:
 	b DecodeCodeType_NoOperation
 
 #! ------------------------------------------------------------------------
-#!                                Loop [80]
+#! MARK:                          Loop [80]
 #! ------------------------------------------------------------------------
 #! ------------------------------------------------------------------------
-#!                            Loop Indexed [81]
+#! MARK:                      Loop Indexed [81]
 #! ------------------------------------------------------------------------
 DecodeCodeType_Loop:
 	lwz r6, 0 (r29) # Get conditional flags.
@@ -2147,7 +2147,7 @@ DecodeCodeType_SetIdentifier:
 	b DecodeCodeType_NoOperation
 
 #! ------------------------------------------------------------------------
-#!                             Break Loop [82]
+#! MARK:                       Break Loop [82]
 #! ------------------------------------------------------------------------
 DecodeCodeType_BreakLoop:
 	lhz r0, 0x2 (r29) # Check conditional flag.
@@ -2161,7 +2161,7 @@ DecodeCodeType_BreakLoop:
 	b DecodeCodeType_NoOperation
 
 #! ------------------------------------------------------------------------
-#!                             Execute ASM [C0]
+#! MARK:                       Execute ASM [C0]
 #! ------------------------------------------------------------------------
 DecodeCodeType_ExecuteASM:
 	lhz r5, 0x2 (r31) # Amount of code lines NNNN.
@@ -2295,7 +2295,7 @@ DecodeCodeType_ExcuteASM_General:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                     System- And Procedure Calls [C1]
+#! MARK:               System- And Procedure Calls [C1]
 #! ------------------------------------------------------------------------
 DecodeCodeType_ProcedureAndSyscalls:
 	lhz r5, 0x2 (r29) # Check conditional flag.
@@ -2360,7 +2360,7 @@ DecodeCodeType_ProcedureAndSyscalls_Return:
 	b DecodeCodeType_NoOperation
 
 #! ------------------------------------------------------------------------
-#!                                Insert ASM
+#! MARK:                          Insert ASM
 #! ------------------------------------------------------------------------
 DecodeCodeType_InsertASM:
 	lwz r26, 0x4 (r31) # Address LLLLLLLL.
@@ -2408,14 +2408,14 @@ DecodeCodeType_InsertASM_General:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                          Insert ASM Via LR [C2]
+#! MARK:                    Insert ASM Via LR [C2]
 #! ------------------------------------------------------------------------
 DecodeCodeType_InsertASM_ViaLR:
 	li r4, 0x3
 	b DecodeCodeType_InsertASM_PatchTarget
 
 #! ------------------------------------------------------------------------
-#!                         Insert ASM Via CTR [C3]
+#! MARK:                   Insert ASM Via CTR [C3]
 #! ------------------------------------------------------------------------
 DecodeCodeType_InsertASM_ViaCTR:
 	li r4, 0x2
@@ -2429,7 +2429,7 @@ DecodeCodeType_InsertASM_PatchTarget:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                          ASM String Writes [C4]
+#! MARK:                    ASM String Writes [C4]
 #! ------------------------------------------------------------------------
 DecodeCodeType_ASMStringWrites:
 	lwz r26, 0x4 (r31) # Address LLLLLLLL.
@@ -2489,7 +2489,7 @@ DecodeCodeType_ASMStringWrites_Patch:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                             Terminator [D0]
+#! MARK:                       Terminator [D0]
 #! ------------------------------------------------------------------------
 DecodeCodeType_Terminator:
 	li r0, 0
@@ -2498,7 +2498,7 @@ DecodeCodeType_Terminator:
 	b DecodeCodeType_NoOperation
 
 #! ------------------------------------------------------------------------
-#!                           Loop Terminator [D1]
+#! MARK:                     Loop Terminator [D1]
 #! ------------------------------------------------------------------------
 DecodeCodeType_LoopTerminator:
 	SET_ADDR r11, "CODE_HANDLER_0x80_CODETYPE_FLAG"
@@ -2561,7 +2561,7 @@ DecodeCodeType_LoopTerminator_Terminate:
 	b DecodeCodeType_NoOperation
 
 #! ------------------------------------------------------------------------
-#!                       Conditional Terminator [D2]
+#! MARK:                 Conditional Terminator [D2]
 #! ------------------------------------------------------------------------
 DecodeCodeType_ConditionalTerminator:
 	lhz r5, 0 (r29) # Conditional counter.
@@ -2577,7 +2577,7 @@ DecodeCodeType_ConditionalTerminator:
 	b DecodeCodeType_NoOperation
 
 #! ------------------------------------------------------------------------
-#!                       Display Message And Halt [E0]
+#! MARK:                Display Message And Pause [E0]
 #! ------------------------------------------------------------------------
 DecodeCodeType_DisplayMessageAndPause:
 	addi r3, r31, 0x8
@@ -2621,7 +2621,7 @@ DecodeCodeType_DisplayMessageAndPause_General:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                  Display Pointer Message And Halt [E1]
+#! MARK:            Display Pointer Message And Pause [E1]
 #! ------------------------------------------------------------------------
 DecodeCodeType_DisplayPointerMessageAndPause:
 	lwz r5, 0x4 (r31)
@@ -2654,7 +2654,7 @@ DecodeCodeType_DisplayPointerMessageAndPause:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                      Clear Message And Resume [E2]
+#! MARK:                Clear Message And Resume [E2]
 #! ------------------------------------------------------------------------
 DecodeCodeType_ClearMessageAndResume:
 	addi r31, r31, 0x8
@@ -2683,7 +2683,7 @@ DecodeCodeType_ClearMessageAndResume:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                              Corruptor [F0]
+#! MARK:                        Corruptor [F0]
 #! ------------------------------------------------------------------------
 DecodeCodeType_Corruptor:
 	addi r12, r31, 0x4
@@ -2740,7 +2740,7 @@ DecodeCodeType_Corruptor_TryNextAttempt:
 	b DecodeCodeType_Exit
 
 #! ------------------------------------------------------------------------
-#!                            No Operation [CC]
+#! MARK:                      No Operation [CC]
 #! ------------------------------------------------------------------------
 DecodeCodeType_NoOperation:
 	addi r31, r31, 0x8
@@ -3224,10 +3224,10 @@ DCUpdate:
  *@return r3 "allocated memory" address
  *========================================================================**/
 MEMAllocFromDefaultHeapEx:
-	lis r12, "addr_MEMAllocFromDefaultHeapEx"@ha
-	lwz r12, "addr_MEMAllocFromDefaultHeapEx"@l (r12)
-	lwz r12, 0 (r12)
-	mtctr r12
+	lis r11, "addr_MEMAllocFromDefaultHeapEx"@ha
+	lwz r11, "addr_MEMAllocFromDefaultHeapEx"@l (r11)
+	lwz r11, 0 (r11)
+	mtctr r11
 	bctr
 
 /**========================================================================
@@ -3236,10 +3236,10 @@ MEMAllocFromDefaultHeapEx:
  *@param1 r3 "allocated memory" address
  *========================================================================**/
 MEMFreeToDefaultHeap:
-	lis r12, "addr_MEMFreeToDefaultHeap"@ha
-	lwz r12, "addr_MEMFreeToDefaultHeap"@l (r12)
-	lwz r12, 0 (r12)
-	mtctr r12
+	lis r11, "addr_MEMFreeToDefaultHeap"@ha
+	lwz r11, "addr_MEMFreeToDefaultHeap"@l (r11)
+	lwz r11, 0 (r11)
+	mtctr r11
 	bctr
 
 /**========================================================================
@@ -3263,6 +3263,7 @@ coreinit_ascii:
 
 OSFatal_ascii:
 	.asciz "OSFatal"
+
 OSIsAddressValid_ascii:
 	.asciz "OSIsAddressValid"
 

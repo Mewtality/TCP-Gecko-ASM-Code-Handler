@@ -21,5 +21,5 @@ Binary2CCode.jar -b codeHandler -h code_handler.h -l 4 -i codehandler.bin
 4. Place the generated header file in TCP Gecko. (src/tcpgecko/code_handler.h)
 <br><br>
 ## Special Thanks:
-- CosmoCortey for the original code handler.
+- CosmoCortney for the original code handler.
 - ShyGuy for writting the original Insert ASM cafe code types.
